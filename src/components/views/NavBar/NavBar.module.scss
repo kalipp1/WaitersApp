@@ -1,0 +1,21 @@
+.navbar {
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    margin: 30px 0px;
+    .logo{
+        color: white;
+    }
+    .nav a.link{
+        color: rgba(255, 255, 255, 0.647);
+        text-decoration: none;
+    }
+    .nav a.link:hover{
+        color: rgba(255, 255, 255, 0.647);
+        text-decoration: none;
+    }
+    .linkActive {
+        color: white !important;
+        transition: 0.5s;
+    }
+}
