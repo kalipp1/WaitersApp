@@ -1,3 +1,6 @@
+// selectors
+export const getAllTables = ( state ) => state.tables;
+
 //action names
 const createActionName = name => `app/books/${name}`;
 const UPDATE_TABLES = createActionName('UPDATE_TABLES');

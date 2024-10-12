@@ -1,3 +1,40 @@
 h1{
     letter-spacing: 2px;
 }
+.showMoreBTN{
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 5px;
+}
+.allTables{
+    display: flex;
+    flex-direction: column;
+}
+.singleTable{
+    margin: 2vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(91, 86, 86, 0.289);
+    padding-bottom: 3vh;
+    padding-top: 3vh;
+    .info{
+        display: flex;
+        flex-direction: row;
+        .tableName{
+            margin-right: 5vh;
+        }
+        .status{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 7px;
+            .onlyStatusTXT{
+                margin-right: 5px;
+            }
+        }
+    }
+}
