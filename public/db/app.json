@@ -1,10 +1,10 @@
 {
     "tables": [
         {
-            "id": "1", "name": "Table 1", "Status": "Reserved", "PeopleAmount": "4", "MaxPeopleAmount": "4", "Bill": "$45"
+            "id": "1", "name": "Table 1", "Status": "Reserved", "PeopleAmount": "4", "MaxPeopleAmount": "4", "Bill": "45"
         },
         {
-            "id": "2", "name": "Table 2", "Status": "Busy", "PeopleAmount": "2", "MaxPeopleAmount": "3", "Bill": "$55"
+            "id": "2", "name": "Table 2", "Status": "Busy", "PeopleAmount": "2", "MaxPeopleAmount": "3", "Bill": "55"
         },
         {
             "id": "3", "name": "Table 3", "Status": "Free", "PeopleAmount": "0", "MaxPeopleAmount": "5", "Bill": "0"
