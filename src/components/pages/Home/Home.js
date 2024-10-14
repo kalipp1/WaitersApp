@@ -1,6 +1,8 @@
 import styles from './Home.module.scss';
 import { useSelector } from 'react-redux';
 import { getAllTables } from '../../../redux/tablesRedux';
+import Nav from 'react-bootstrap/Nav';
+import { NavLink } from 'react-router-dom';
 
 const Home = () => {
     const tables = useSelector(getAllTables)
@@ -14,7 +16,7 @@ const Home = () => {
                     <h3 className={styles.tableName}>{table.name}</h3>
                     <p className={styles.status}><b className={styles.onlyStatusTXT}>Status:</b>{table.Status}</p>
                     </div>
-                    <button className={styles.showMoreBTN}>Show more</button>
+                    <Nav.Link as={NavLink} to={"/table/"+table.id}><button className={styles.showMoreBTN}>Show more</button></Nav.Link>
                 </article>
             )}
         </section>
