@@ -3,13 +3,31 @@ import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getTableById } from '../../../redux/tablesRedux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const TablePage = () => {
     const { tableId } = useParams();
     const table = useSelector(state => getTableById(state, tableId));
     const statusOptions = ['Free', 'Reserved', 'Busy', 'Cleaning'];
+    const [peopleAmount, setPeopleAmount] = useState(table.PeopleAmount);
+    const [maxPeopleAmount, setMaxPeopleAmount] = useState(table.MaxPeopleAmount);
+    const [bill, setBill] = useState(table.Bill);
+    const [status, setStatus] = useState(table.Status);
+
+    useEffect(() => {
+        if (status === 'Free' || status === 'Cleaning') {
+            setPeopleAmount('0');
+        }
+    }, [status]);
+    useEffect(() => {
+        if (status === 'Busy') {
+            setBill('0');
+            document.querySelector('.busyBillInfo').innerHTML ='Możesz edytować stan rachunku';
+        } else if (status !== 'Busy') {
+            document.querySelector('.busyBillInfo').innerHTML = '';
+        }
+    }, [status]);
 
     if(!table) return <Navigate to={"/"} />
     return(
@@ -20,7 +38,7 @@ const TablePage = () => {
             <section>
                 <div className={styles.status}>
                     <p><b>Status:</b></p>
-                    <select value={table.Status}>
+                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
                         {statusOptions.map((status) => (
                         <option key={status} value={status}>
                         {status}
@@ -30,11 +48,13 @@ const TablePage = () => {
                 </div>
                 <div className={styles.people}>
                 <p><b>People:</b></p>
-                <input className={styles.peopleAmount} type='text' value={table.PeopleAmount} />/<input className={styles.peopleAmount} type='text' value={table.MaxPeopleAmount} />
+                <input className={styles.peopleAmount} type='text' value={peopleAmount} onChange={(e) => setPeopleAmount(e.target.value)} />/<input className={styles.peopleAmount} type='text' min="1" 
+                    max="10" value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(e.target.value)} />
                 </div>
                 <div className={styles.bill}>
                     <p><b>Bill: <span className={styles.dollar}>$</span></b></p>
-                    <input className={styles.billInput} type='text' value={table.Bill} />
+                    <input className={styles.billInput} type='text' value={bill} onChange={(e) => setBill(e.target.value)} />
+                    <p className='busyBillInfo'></p>
                 </div>
                 <button className={styles.updateBTN}>Update</button>
             </section>
