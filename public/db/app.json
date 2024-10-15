@@ -11,6 +11,9 @@
         },
         {
             "id": "4", "name": "Table 4", "Status": "Cleaning", "PeopleAmount": "0", "MaxPeopleAmount": "2", "Bill": "0"
+        },
+        {
+            "id": "5", "name": "Table 5", "Status": "Reserved", "PeopleAmount": "7", "MaxPeopleAmount": "9", "Bill": "76"
         }
     ]
   }

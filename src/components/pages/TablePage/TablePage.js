@@ -5,9 +5,14 @@ import { useDispatch } from 'react-redux';
 import { getTableById } from '../../../redux/tablesRedux';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { updateTable } from '../../../redux/tablesRedux';
+import TextInput from '../../common/TextInput/TextInput';
 
 const TablePage = () => {
     const { tableId } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const table = useSelector(state => getTableById(state, tableId));
     const statusOptions = ['Free', 'Reserved', 'Busy', 'Cleaning'];
     const [peopleAmount, setPeopleAmount] = useState(table.PeopleAmount);
@@ -21,13 +26,30 @@ const TablePage = () => {
         }
     }, [status]);
     useEffect(() => {
+        if (status === 'Free') {
+            setBill('0');
+        }
+    }, [status]);
+    useEffect(() => {
         if (status === 'Busy') {
             setBill('0');
-            document.querySelector('.busyBillInfo').innerHTML ='Możesz edytować stan rachunku';
+            document.querySelector('.busyBillInfo').innerHTML ='You can edit bill value';
         } else if (status !== 'Busy') {
             document.querySelector('.busyBillInfo').innerHTML = '';
         }
     }, [status]);
+    const handleUpdate = () => {
+        const updatedTable = {
+            id: table.id,
+            name: table.name,
+            Status: status,
+            PeopleAmount: peopleAmount,
+            MaxPeopleAmount: maxPeopleAmount,
+            Bill: bill,
+        };
+        dispatch(updateTable(updatedTable));
+        navigate('/');
+    };
 
     if(!table) return <Navigate to={"/"} />
     return(
@@ -48,15 +70,16 @@ const TablePage = () => {
                 </div>
                 <div className={styles.people}>
                 <p><b>People:</b></p>
-                <input className={styles.peopleAmount} type='text' value={peopleAmount} onChange={(e) => setPeopleAmount(e.target.value)} />/<input className={styles.peopleAmount} type='text' min="1" 
-                    max="10" value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(e.target.value)} />
+                <input className={styles.peopleAmount} type='text' value={peopleAmount} onChange={(e) => setPeopleAmount(e.target.value)} />/<input className={styles.peopleAmount} type='text'
+                    value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(e.target.value)} />
                 </div>
                 <div className={styles.bill}>
                     <p><b>Bill: <span className={styles.dollar}>$</span></b></p>
+                    {/* <TextInput value={bill} action={(e) => setBill(e.target.value)} /> */}
                     <input className={styles.billInput} type='text' value={bill} onChange={(e) => setBill(e.target.value)} />
                     <p className='busyBillInfo'></p>
                 </div>
-                <button className={styles.updateBTN}>Update</button>
+                <button className={styles.updateBTN} onClick={handleUpdate}>Update</button>
             </section>
         </div>
     );

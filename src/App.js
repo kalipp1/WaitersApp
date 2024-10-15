@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from "./components/pages/Home/Home";
 import PageNotFound from "./components/pages/PageNotFound/PageNotFound";
 import TablePage from "./components/pages/TablePage/TablePage";
+import Footer from "./components/views/Footer/Footer";
 
 
 function App() {
@@ -18,11 +19,11 @@ function App() {
     <Container>
       <Header />
       <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/table/:tableId" element={<TablePage />} />
-            <Route path="/table/edit/:id" element={<Home />} />
-            <Route path="*" element={<PageNotFound />} />
-        </Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/table/:tableId" element={<TablePage />} />  
+          <Route path="*" element={<PageNotFound />} />
+      </Routes>
+      <Footer />
     </Container>
   );
 };
