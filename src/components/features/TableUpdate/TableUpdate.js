@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { updateTable } from '../../../redux/tablesRedux';
 import TextInput from '../../common/TextInput/TextInput';
+import Button from '../../common/Button/Button';
 
 const TablePage = () => {
     const { tableId } = useParams();
@@ -19,25 +20,36 @@ const TablePage = () => {
     const [maxPeopleAmount, setMaxPeopleAmount] = useState(table?.MaxPeopleAmount);
     const [bill, setBill] = useState(table?.Bill);
     const [status, setStatus] = useState(table?.Status);
+    const [message, setMessage] = useState('');
+    const [previousStatus, setPreviousStatus] = useState(table?.Status);
 
     useEffect(() => {
         if (status === 'Free' || status === 'Cleaning') {
             setPeopleAmount('0');
         }
     }, [status]);
+
     useEffect(() => {
         if (status === 'Free') {
             setBill('0');
         }
     }, [status]);
+
+    useEffect(() => {
+        if (status === 'Busy' && previousStatus !== 'Busy') {
+            setBill('0');
+        }
+        setPreviousStatus(status);
+    }, [status, previousStatus]);
+
     useEffect(() => {
         if (status === 'Busy') {
-            setBill('0');
-            document.querySelector('.busyBillInfo').innerHTML ='You can edit bill value';
-        } else if (status !== 'Busy') {
-            document.querySelector('.busyBillInfo').innerHTML = '';
+            setMessage('You can edit bill value');
+        } else if(status !== 'Busy') {
+            setMessage('');
         }
-    }, [status]);
+    }, [status, bill]);
+
     const handlePeopleAmount = (event) => {
         const value = event.target.value;
         if(value > maxPeopleAmount){
@@ -47,7 +59,8 @@ const TablePage = () => {
         }else{
             setPeopleAmount(value);
         }
-    }
+    };
+
     const handleMaxPeopleAmount = (event) => {
         const value = event.target.value;
         if(value > 10){
@@ -61,8 +74,8 @@ const TablePage = () => {
                 setPeopleAmount(value);
             }
         }
-
-    }
+    };
+    
     const handleUpdate = () => {
         const updatedTable = {
             id: table.id,
@@ -91,16 +104,14 @@ const TablePage = () => {
                 </div>
                 <div className={styles.people}>
                 <p><b>People:</b></p>
-                <input className={styles.peopleAmount} type='text' value={peopleAmount} onChange={handlePeopleAmount} />/<input className={styles.peopleAmount} type='text'
-                    value={maxPeopleAmount} onChange={handleMaxPeopleAmount} />
+                <TextInput className={styles.peopleAmount} value={peopleAmount} action={handlePeopleAmount} />/<TextInput className={styles.peopleAmount} value={maxPeopleAmount} action={handleMaxPeopleAmount} />
                 </div>
                 <div className={styles.bill}>
                     <p><b>Bill: <span className={styles.dollar}>$</span></b></p>
                     <TextInput value={bill} action={(e) => setBill(e.target.value)} />
-                    {/* <input className={styles.billInput} type='text' value={bill} onChange={(e) => setBill(e.target.value)} /> */}
-                    <p className='busyBillInfo'></p>
+                    <p>{message}</p>
                 </div>
-                <button className={styles.updateBTN} onClick={handleUpdate}>Update</button>
+                <Button action={handleUpdate} content={'Update'} />
             </section>
     );
 };

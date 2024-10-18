@@ -1,11 +1,10 @@
 import styles from './TextInput.module.scss';
+import clsx from 'clsx';
 
 const TextInput = props => {
     return(
-        <input className={styles.textInput} type='text' value={props.value} onChange={props.action} />
+        <input className={clsx(styles.textInput, props.className)} type='text' value={props.value} onChange={props.action} />
     );
 };
 
 export default TextInput;
-
-// {clsx(styles.textInput, props.className)}

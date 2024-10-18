@@ -39,10 +39,7 @@ const Home = () => {
                             <p>Loading...</p>
                         </div>
                     ) : (
-                        // <Button action={() => handleShowMore(table.id)} content={'Show more'} />
-                        <button className={styles.showMoreBTN} onClick={() => handleShowMore(table.id)}>
-                            Show more
-                        </button>
+                        <Button action={() => handleShowMore(table.id)} content={'Show more'} />
                     )}
                 </article>
             )}
